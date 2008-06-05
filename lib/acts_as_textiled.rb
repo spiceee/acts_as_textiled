@@ -1,6 +1,9 @@
 module Err 
   module Acts #:nodoc: all
     module Textiled
+      include ActionView::Helpers::TagHelper
+      include ActionView::Helpers::TextHelper
+
       def self.included(klass)
         klass.extend ClassMethods
       end
@@ -93,7 +96,8 @@ module Err
         end
 
         def redcloth_glyphs
-           [[ '&#8217;', "'" ], 
+           [[ '&#x000A;', "\n"],
+            [ '&#8217;', "'" ], 
             [ '&#8216;', "'" ],
             [ '&lt;', '<' ], 
             [ '&gt;', '>' ], 
