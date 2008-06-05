@@ -21,7 +21,17 @@ module Err
               type = type.first
 
               if type.nil? && self[attribute]
-                textiled[attribute.to_s] ||= RedCloth.new(self[attribute], Array(ruled[attribute])).to_html 
+                t = textiled[attribute.to_s]
+                if t.nil?
+                  linked = auto_link(self[attribute], :all) do |txt|
+                    txt.size < 55 ? txt : truncate(txt, 50)
+                  end
+                  t = RedCloth.new(linked, Array(ruled[attribute])).to_html
+                  # preserve whitespace for haml
+                  t = t.chomp("\n").gsub(/\n/, '&#x000A;').gsub(/\r/, '')
+                  textiled[attribute.to_s] = t
+                end
+                t
               elsif type.nil? && self[attribute].nil?
                 nil
               elsif type_options.include?(type.to_s)
