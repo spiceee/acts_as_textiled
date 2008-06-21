@@ -75,7 +75,7 @@ module Err
           self.class.textiled_attributes.each { |attr| __send__(attr) }
         end
 
-        def reload
+        def reload(options = nil)
           textiled.clear
           super
         end
