@@ -26,7 +26,7 @@ module Err
               if type.nil? && self[attribute]
                 t = textiled[attribute.to_s]
                 if t.nil?
-                  linked = auto_link(self[attribute], :all) do |txt|
+                  linked = auto_link(CGI.escapeHTML(self[attribute]), :all) do |txt|
                     txt.size < 55 ? txt : truncate(txt, 50)
                   end
                   t = RedCloth.new(linked, Array(ruled[attribute])).to_html
