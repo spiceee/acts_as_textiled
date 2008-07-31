@@ -29,6 +29,10 @@ module Err
                   linked = auto_link(CGI.escapeHTML(self[attribute]), :all) do |txt|
                     txt.size < 55 ? txt : truncate(txt, 50)
                   end
+                  
+                  # &lt;a href='http://domain.com'&gt;some text&lt;/a&gt;
+                  linked.sub!(/\&lt\;a href=([\'\"].*?[\'\"])\&gt\;(.*?)\&lt\;\/a\&gt\;/, '<a href=\1>\2</a>')
+                  
                   t = RedCloth.new(linked, Array(ruled[attribute])).to_html
                   # preserve whitespace for haml
                   t = t.chomp("\n").gsub(/\n/, '&#x000A;').gsub(/\r/, '')
