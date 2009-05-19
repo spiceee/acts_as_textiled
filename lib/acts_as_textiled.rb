@@ -92,6 +92,7 @@ module Err
 
         def write_attribute(attr_name, value)
           textiled[attr_name.to_s] = nil
+          self.changed_attributes ||= {}
           super
         end
 
